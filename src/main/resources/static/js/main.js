@@ -58,7 +58,7 @@ function fire_ajax_submit() {
             dataType: 'text', // json -> text
             success: function (result) {
             	console.log("SUCCESS : ", result);
-            },
+            }, 
             error: function (e) {
                 console.log("ERROR : ", e);
             }
