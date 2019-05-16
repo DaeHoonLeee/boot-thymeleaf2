@@ -59,7 +59,7 @@ function fire_ajax_submit() {
             success: function (result) {
             	console.log("SUCCESS : ", result);  
             }, 
-            error: function (e) {  
+            error: function (e) {    
                 console.log("ERROR : ", e);
             }
         });    
