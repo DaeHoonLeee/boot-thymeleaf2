@@ -2,10 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <title>user list display</title>
+    <th:block th:include="fragments/header"></th:block>
 </head>
 <body>
+    <th:block th:include="fragments/nav"></th:block>
+
 <table>
 <thead>
 	<tr>
@@ -22,3 +24,48 @@
 </table>
 </body>
 </html>
+
+
+
+<div class="container" style="min-height: 500px">
+
+    <div class="starter-template">
+        <h1>Spring Boot AJAX Example</h1>
+
+        <div id="feedback"></div>
+
+        <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">아이디</th>
+      <th scope="col">이름</th>
+      <th scope="col">회사</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="user : ${users}">
+      <td><a th:href = "@{/users/{id}(id=${user.id})}">
+      <span th:text="${user.id}"></span></a></td>
+      <td><span th:text="${name}"></span></td>
+      <td><span th:text="${company}"></span></td>      
+    </tr>
+    
+  </tbody>
+</table>
+
+    </div>
+
+</div>
+
+
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  
+<script type="text/javascript" src="/js/main.js"></script>
+
+</body>
+</html>
+*/
