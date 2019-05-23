@@ -1,9 +1,11 @@
 package idu.cs.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,22 @@ public class HomeController {
 		return "userlist";
 	}
 	
+	@GetMapping("/users/byname") //byname?name=***, ***값이 name변수에 저장됨
+	public String getUsersByName(@Param(value = "name") String name, Model model) {
+		List<User> users = userRepo.findByName(name);
+		model.addAttribute("users", users);
+		return "userlist";
+	}
+	
+	
+	@GetMapping("/users/nameasc") //byname?name=***, ***값이 name변수에 저장됨
+	public String getUsersByNameAsc(@Param(value = "name") String name, Model model) {
+		List<User> users = userRepo.findByNameOrderByIdAsc(name);
+		model.addAttribute("users", users);
+		return "userlist";
+	}
+	
+	
 	@GetMapping("/users/{id}")
 	public String getUserById(@PathVariable(value = "id") Long userId,  
 	Model model) throws ResourceNotFoundException {
@@ -49,6 +67,7 @@ public class HomeController {
 		model.addAttribute("id", "" + userId);
 		model.addAttribute("name", user.getName());
 		model.addAttribute("company", user.getCompany());
+		model.addAttribute("user", user);
 		return "user";
 	}
 	
@@ -59,15 +78,15 @@ public class HomeController {
 		return "regform";
 	}	
 	@PostMapping("/users")
-	public String createUser(@Valid @RequestBody User user, Model model) {
+	public String createUser(@Valid User user, Model model) {
 		userRepo.save(user);
 		model.addAttribute("users", userRepo.findAll());
 		return "redirect:/users";
 	}
 	
 	@PutMapping("/users/{id}")  //@RequestMapping(value = "/users/{id}" method = "RequestMethod.DELETE
-	public ResponseEntity<User> updateUserById(@PathVariable(value = "id") Long userId,  
-			@Valid @RequestBody User userDetails, Model model) throws ResourceNotFoundException {
+	public String updateUserById(@PathVariable(value = "id") Long userId,  
+			@Valid User userDetails, Model model) throws ResourceNotFoundException {
 				//userDetails 폼을 통해 전송된 객체, user는 id로 jpa를 통해서 가져온 객체
 		User user = userRepo.findById(userId)
 				.orElseThrow(() -> 
@@ -75,7 +94,8 @@ public class HomeController {
 		user.setName(userDetails.getName()); // 삭제하는 부분, 객체 삭제-> jpa : record 삭제로 적용
 		user.setCompany(userDetails.getCompany());
 		User userUpdate = userRepo.save(user);
-		return ResponseEntity.ok(userUpdate);
+		//model.addAttribute("user", userUpdate);
+		return "redirect:/users"; //엡데이트가 성공하면 users get방식으로 model에 user어트리뷰트를  전달한다.
 	}
 	
 	
