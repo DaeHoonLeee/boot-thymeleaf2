@@ -49,7 +49,7 @@ public class HomeController {
 	}
 	
 	
-	@GetMapping("/users/nameasc") //byname?name=***, ***값이 name변수에 저장됨
+	@GetMapping("/users/nameasc") 
 	public String getUsersByNameAsc(@Param(value = "name") String name, Model model) {
 		List<User> users = userRepo.findByNameOrderByIdAsc(name);
 		model.addAttribute("users", users);

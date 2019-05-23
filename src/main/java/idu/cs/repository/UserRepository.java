@@ -9,5 +9,7 @@ import java.util.List;
 public interface UserRepository 
 	extends JpaRepository<User, Long> {
 	List<User> findByName(String name);
+	List<User> findByNameOrderByIdAsc(String name);
+	List<User> findByCompany(String company);
 
 }
